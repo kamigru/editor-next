@@ -1,63 +1,56 @@
+'use client';
+
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div>
-        <h1 className="text-4xl font-bold">
-            Bienvenido a la prueba técnica de Kamila Graña
-</h1>
+    <main className="relative w-full h-screen flex flex-col">
+      <header className="w-full p-4 flex justify-between items-center">
+        <div className="flex items-center space-x-3">
+          <Image src="/icon/logo.png" alt="Logo" width={32} height={32} />
+          <h1 className="font-bold text-2xl text-black">
+            Prueba técnica Next.js
+          </h1>
         </div>
-
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/icon/notion.png"
-            alt="Notion icon"
-            width={16}
-            height={16}
-          />
-          Doc
-        </a>
-        {/* <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://github.com/kamigru"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/icon/github.png"
-            alt="Github icon"
-            width={16}
-            height={16}
-          />
-          Repositoy
-        </a> */}
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://github.com/kamigru/editor-next"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/icon/github.png"
-            alt="Github icon"
-            width={16}
-            height={16}
-          />
-          Ir al repositorio →
-        </a>
-      </footer>
-    </div>
+        <nav className="flex space-x-4 mr-2">
+          <Link
+            href="https://github.com/kamigru"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src="/icon/github.png"
+              alt="GitHub Icon"
+              width={32}
+              height={32}
+            />
+          </Link>
+          <Link href="#" target="_blank" rel="noopener noreferrer">
+            <Image
+              src="/icon/notion.png"
+              alt="Notion Icon"
+              width={36}
+              height={36}
+            />
+          </Link>
+        </nav>
+      </header>
+      <section className="flex flex-col items-center justify-center flex-grow text-center">
+        <h1 className="text-4xl font-bold mb-4">
+          Bienvienido/a a mi prueba técnica
+        </h1>
+        <p className="mb-6">
+          Aplicaión para prueba técnica contruido en Next.js con Tldraw y tRPC.
+        </p>
+        <Link href="/editor">
+          <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700">
+            Ir al Editor
+            <Image src="/icon/brush-white.png" alt="Brush Icon" width={20} height={20} className="inline-block ml-2" />
+          </Button>
+        </Link>
+      </section>
+    </main>
   );
 }
