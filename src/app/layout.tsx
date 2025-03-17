@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { TrpcProvider } from "./providers";
 import "@/styles/globals.css";
+import HeaderNav from "@/components/HeaderNav";
 
 export const metadata: Metadata = {
-  title: "Editor",
+  title: "HeyEditor",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
@@ -17,10 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body>
+    <html lang="es" className="h-full">
+      <body className="flex flex-col h-full">
         <TrpcProvider>
-          {children}
+          <HeaderNav />
+          <div className="flex-1 overflow-hidden">
+            {children}
+          </div>
         </TrpcProvider>
       </body>
     </html>

@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Editor Tldraw
 
-## Getting Started
+Editor de dibujo interactivo construido con Next.js, Tldraw y tRPC para prueba técnica.
 
-First, run the development server:
+![Editor Screenshot](public/icon/BrushGIF.gif)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Características
+
+- **Editor de dibujo completo** basado en la biblioteca [Tldraw](https://tldraw.com/)
+- **Guardado automático** de cambios mediante tRPC
+- **Interfaz intuitiva** con TailwindCSS y Shadcn UI
+- **Manejo de frames** con selección de contenido
+- **Comunicación tipo-segura** entre cliente y servidor con tRPC
+
+## 🛠️ Tecnologías
+
+- **Frontend**: [Next.js](https://nextjs.org/) con App Router
+- **Editor**: [Tldraw](https://tldraw.com/)
+- **Estilos**: [TailwindCSS](https://tailwindcss.com/) y [Shadcn UI](https://ui.shadcn.com/)
+- **API**: [tRPC](https://trpc.io/) para comunicación tipo-segura
+- **Tipado**: TypeScript
+
+## 🚀 Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/editor-next.git
+   cd editor-next
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+
+3. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 📖 Uso
+
+### Página principal
+La página principal muestra un botón para acceder al editor.
+
+### Editor
+El editor proporciona una interfaz completa de dibujo con las siguientes funcionalidades:
+
+- **Herramientas de dibujo**: Formas, líneas, texto, etc.
+- **Frames**: Contenedores para organizar elementos
+- **Estilos**: Colores, tamaños, rellenos, etc.
+
+### Trabajando con Frames
+
+1. **Selecciona un frame** haciendo clic en él
+2. Aparecerá un panel en la esquina superior derecha
+3. Haz clic en **"Seleccionar contenido"** para seleccionar todos los elementos dentro del frame
+4. Usa la **paleta de estilos nativa** de Tldraw para modificar los elementos seleccionados
+
+## 🔄 API y Persistencia
+
+El proyecto utiliza tRPC para crear una API tipo-segura que permite:
+
+- **Obtener documentos** guardados previamente
+- **Guardar cambios** automáticamente cuando se modifican elementos
+
+## 🧩 Estructura del Proyecto
+
+```
+src/
+├── app/                         # App Router de Next.js
+│   ├── page.tsx                 # Página principal
+│   ├── editor/                  # Página del editor
+│   │   └── page.tsx
+│   └── api/                     # Endpoints de API
+│       └── trpc/                # Configuración de tRPC
+├── components/                  # Componentes reutilizables
+│   └── ui/                      # Componentes de UI (Shadcn)
+├── server/                      # Lógica del servidor
+│   ├── config.ts                # Configuración de tRPC
+│   └── routers/                 # Routers de tRPC
+│       ├── _app.ts              # Router principal
+│       └── editor.ts            # Endpoints del editor
+└── lib/                         # Utilidades
+    └── trpc.ts                  # Cliente tRPC
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🤝 Contribuir
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Haz fork del repositorio
+2. Crea una rama para tu característica (`git checkout -b feature/amazing-feature`)
+3. Haz commit de tus cambios (`git commit -m 'Add some amazing feature'`)
+4. Haz push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+<!-- 
+# 🎨 Editor Tldraw
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Editor de dibujo interactivo desarrollado con Next.js, Tldraw y tRPC para demostraciones técnicas.  
+Ofrece herramientas de dibujo avanzadas, guardado automático y una interfaz intuitiva para la edición de contenidos gráficos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Editor Screenshot](public/icon/BrushGIF.gif)
 
-## Deploy on Vercel
+## ✨ Características
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Editor de dibujo completo** basado en la biblioteca [Tldraw](https://tldraw.com/)
+- **Guardado automático** de cambios mediante tRPC
+- **Interfaz intuitiva** con TailwindCSS y Shadcn UI
+- **Manejo de frames** con selección de contenido
+- **Comunicación tipo-segura** entre cliente y servidor gracias a tRPC
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tecnologías
+
+- **Frontend**: [Next.js](https://nextjs.org/) con App Router
+- **Editor**: [Tldraw](https://tldraw.com/)
+- **Estilos**: [TailwindCSS](https://tailwindcss.com/) y [Shadcn UI](https://ui.shadcn.com/)
+- **API**: [tRPC](https://trpc.io/) para comunicación tipo-segura
+- **Tipado**: TypeScript
+
+## 🚀 Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/editor-next.git
+   cd editor-next -->
