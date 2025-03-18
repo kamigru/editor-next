@@ -2,7 +2,7 @@
 
 Editor de dibujo interactivo construido con Next.js, Tldraw y tRPC para prueba técnica.
 
-![Editor Screenshot](public/icon/BrushGIF.gif)
+![Editor Screenshot](public/painting.png)
 
 ## ✨ Características
 
@@ -38,93 +38,68 @@ Editor de dibujo interactivo construido con Next.js, Tldraw y tRPC para prueba t
    npm run dev
    ```
 
-4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+4. Abre [http://localhost:3000](http://localhost:3000) (o el puerto que indique tu consola) en tu navegador.
 
 ## 📖 Uso
 
 ### Página principal
-La página principal muestra un botón para acceder al editor.
 
-### Editor
-El editor proporciona una interfaz completa de dibujo con las siguientes funcionalidades:
+La primera página te da la bienvenida y puedes acceder al editor mediante el botón del header o el que aparece debajo de la bienvenida.
 
-- **Herramientas de dibujo**: Formas, líneas, texto, etc.
-- **Frames**: Contenedores para organizar elementos
-- **Estilos**: Colores, tamaños, rellenos, etc.
+### Editor y creación de figuras
 
-### Trabajando con Frames
+A continuación, te muestro el flujo básico para usar el editor.
 
-1. **Selecciona un frame** haciendo clic en él
-2. Aparecerá un panel en la esquina superior derecha
-3. Haz clic en **"Seleccionar contenido"** para seleccionar todos los elementos dentro del frame
-4. Usa la **paleta de estilos nativa** de Tldraw para modificar los elementos seleccionados
+1. **Crear una figura**
+   En la primera imagen, simplemente dibujamos o insertamos una nueva figura en el lienzo.
+   ![Crear una figura](public/screenshots/step_1.png)
+
+2. **Seleccionar un frame**
+   Una vez tengamos figuras en el lienzo, en la segunda imagen vemos cómo se selecciona un frame para agrupar o contener ciertos elementos.
+   ![Seleccionar un frame](public/screenshots/step_2.png)
+
+3. **Seleccionar figuras dentro del frame**
+   En la tercera imagen, seleccionamos una o varias figuras que queremos modificar dentro de ese frame.
+   ![Seleccionar figuras](public/screenshots/step_3.png)
+
+4. **Ver panel lateral y botón de contenido**
+   En la cuarta imagen, aparece un panel en la derecha que indica qué frame está seleccionado y muestra un botón para "Seleccionar contenido".
+   ![Panel lateral](public/screenshots/step_4.png)
+
+5. **Cambiar color y forma de la figura**
+   Finalmente, con la figura dentro del frame seleccionada, se abre la paleta de colores (y de formas) para modificar la apariencia de los elementos dentro del frame. Aquí se ve la UI nativa de Tldraw para cambiar tanto el color como la forma de la figura seleccionada.
+   ![Cambiar color y forma](public/screenshots/step_5.png)
 
 ## 🔄 API y Persistencia
 
 El proyecto utiliza tRPC para crear una API tipo-segura que permite:
 
-- **Obtener documentos** guardados previamente
-- **Guardar cambios** automáticamente cuando se modifican elementos
+- **Obtener documentos** guardados previamente.
+- **Guardar cambios** automáticamente cuando se modifican elementos en el lienzo.
 
-## 🧩 Estructura del Proyecto
+## 🛠️ Notas Técnicas
 
-```
-src/
-├── app/                         # App Router de Next.js
-│   ├── page.tsx                 # Página principal
-│   ├── editor/                  # Página del editor
-│   │   └── page.tsx
-│   └── api/                     # Endpoints de API
-│       └── trpc/                # Configuración de tRPC
-├── components/                  # Componentes reutilizables
-│   └── ui/                      # Componentes de UI (Shadcn)
-├── server/                      # Lógica del servidor
-│   ├── config.ts                # Configuración de tRPC
-│   └── routers/                 # Routers de tRPC
-│       ├── _app.ts              # Router principal
-│       └── editor.ts            # Endpoints del editor
-└── lib/                         # Utilidades
-    └── trpc.ts                  # Cliente tRPC
-```
+- **Tipado de Tldraw**: Los tipos de Tldraw pueden ser complejos y causar errores de recursión infinita en TypeScript. Se definieron tipos personalizados en `src/types/tldraw.ts` (`EditorInstance` y `ShapeData`) para simplificarlos y mantener la seguridad de tipos donde es crítico (e.g., tRPC).
+- **Configuración de ESLint**: Las reglas `@typescript-eslint/no-explicit-any` y `@typescript-eslint/no-unused-vars` se relajaron a "warn" en `src/app/editor/page.tsx` (ver `eslint.config.mjs`) debido a limitaciones con los tipos de Tldraw. Esto se hizo para priorizar la funcionalidad sin sacrificar la rigurosidad en el resto del proyecto.
 
-## 🤝 Contribuir
+## 🔍 Cómo Probar
 
-Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
+### Probar el Botón de Modificar Forma
+1. Dibuja una forma en el editor.
+2. Añádelo a un frame.
+3. Haz clic en "seleccionar contenido".
+4. Selecciona el contenido dentro del frame que quieras modificar.
+5. Haz clic en "Modificar Forma" en la parte inferior de la ventana de la derecha.
+6. Verifica que la primera figura cambia de forma.
 
-1. Haz fork del repositorio
-2. Crea una rama para tu característica (`git checkout -b feature/amazing-feature`)
-3. Haz commit de tus cambios (`git commit -m 'Add some amazing feature'`)
-4. Haz push a la rama (`git push origin feature/amazing-feature`)
-5. Abre un Pull Request
+### Probar Modificar Color
+1. Dibuja una forma en el editor o introduce algún texto.
+2. Añádelo a un frame.
+3. Haz clic en "seleccionar contenido".
+4. Selecciona el contenido dentro del frame que quieras modificar.
+5. Haz clic en el color al que deseas cambiar el contenido en la ventana de la derecha.
+6. Verifica que el contenido seleccionado cambia de color.
 
-
-<!-- 
-# 🎨 Editor Tldraw
-
-Editor de dibujo interactivo desarrollado con Next.js, Tldraw y tRPC para demostraciones técnicas.  
-Ofrece herramientas de dibujo avanzadas, guardado automático y una interfaz intuitiva para la edición de contenidos gráficos.
-
-![Editor Screenshot](public/icon/BrushGIF.gif)
-
-## ✨ Características
-
-- **Editor de dibujo completo** basado en la biblioteca [Tldraw](https://tldraw.com/)
-- **Guardado automático** de cambios mediante tRPC
-- **Interfaz intuitiva** con TailwindCSS y Shadcn UI
-- **Manejo de frames** con selección de contenido
-- **Comunicación tipo-segura** entre cliente y servidor gracias a tRPC
-
-## 🛠️ Tecnologías
-
-- **Frontend**: [Next.js](https://nextjs.org/) con App Router
-- **Editor**: [Tldraw](https://tldraw.com/)
-- **Estilos**: [TailwindCSS](https://tailwindcss.com/) y [Shadcn UI](https://ui.shadcn.com/)
-- **API**: [tRPC](https://trpc.io/) para comunicación tipo-segura
-- **Tipado**: TypeScript
-
-## 🚀 Instalación
-
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/editor-next.git
-   cd editor-next -->
+### Probar el Guardado Automático
+1. Crea o modifica una forma en el lienzo.
+2. Abre la consola del navegador para ver las peticiones tRPC (`saveDocument`) enviando los datos actualizados.

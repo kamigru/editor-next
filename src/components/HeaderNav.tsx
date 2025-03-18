@@ -31,7 +31,7 @@ export default function HeaderNav() {
         <Link href={isEditorPage ? "/" : "/editor"}>
           <Button 
             variant="outline"
-            className="border-purple-600 text-purple-600 hover:bg-purple-50 mr-4">
+            className="cursor-pointer border-purple-600 text-purple-600 hover:bg-purple-50 hover:text-purple-600">
             {isEditorPage ? "Volver" : "Comenzar a crear"}
           </Button>
         </Link>
@@ -46,15 +46,6 @@ export default function HeaderNav() {
               alt="GitHub Icon"
               width={32}
               height={32}
-              className="transition-opacity hover:opacity-70"
-            />
-          </Link>
-          <Link href="#" target="_blank" rel="noopener noreferrer">
-            <Image
-              src="/icon/notion.png"
-              alt="Notion Icon"
-              width={36}
-              height={36}
               className="transition-opacity hover:opacity-70"
             />
           </Link>

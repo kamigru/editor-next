@@ -1,59 +1,40 @@
 "use client";
 
-import {
-  Tldraw,
-  Editor as TldrawEditor,
-  TLEventMapHandler,
-  TLShape,
-  useEditor,
-  DefaultColorStyle,
-  useValue,
-  TLComponents,
-  TLShapeId,
-} from "@tldraw/tldraw";
+import { Tldraw, useEditor, useValue, TLComponents, TLShapeId } from "@tldraw/tldraw";
 import "tldraw/tldraw.css";
 import { api } from "@/lib/trpc";
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { EditorInstance, ShapeData } from "@/types/tldraw";
 
-// Lista de colores válidos en Tldraw
-const VALID_COLORS = [
-  "black", "grey", "light-violet", "violet", "blue", "light-blue",
-  "yellow", "orange", "green", "light-green", "light-red", "red", "white"
-];
-
-// Componente para mostrar instrucciones de uso
 function FrameHelper() {
-  const editor = useEditor();
-  const selectedShapeIds = useValue('selectedShapeIds', () => editor.getSelectedShapeIds(), [editor]);
+  const editor = useEditor() as EditorInstance;
+  const selectedShapeIds = useValue("selectedShapeIds", () => editor.getSelectedShapeIds(), [editor]);
   const [showTip, setShowTip] = useState(false);
-  
-  // Verificar si hay un frame seleccionado
-  const hasFrameSelected = selectedShapeIds.some(id => {
+
+  const hasFrameSelected = selectedShapeIds.some((id: TLShapeId) => {
     const shape = editor.getShape(id);
-    return shape?.type === 'frame';
+    return shape?.type === "frame";
   });
+
   const frameName = useMemo(() => {
-    if (!hasFrameSelected || selectedShapeIds.length !== 1) return '';
-    
+    if (!hasFrameSelected || selectedShapeIds.length !== 1) return "";
     const frameId = selectedShapeIds[0];
     const frame = editor.getShape(frameId);
-    return (frame?.props as any)?.name || 'Sin nombre';
+    return (frame?.props as Record<string, unknown>)?.name?.toString() || "Sin nombre";
   }, [editor, selectedShapeIds, hasFrameSelected]);
 
   const selectFrameContent = useCallback(() => {
     if (!hasFrameSelected || selectedShapeIds.length !== 1) return;
-    
     const frameId = selectedShapeIds[0];
     const childrenIds = editor.getSortedChildIdsForParent(frameId);
-    
     if (childrenIds.length === 0) {
       setShowTip(true);
       setTimeout(() => setShowTip(false), 3000);
       return;
     }
     editor.select(...childrenIds);
-    
     setShowTip(true);
     setTimeout(() => setShowTip(false), 5000);
   }, [editor, selectedShapeIds, hasFrameSelected]);
@@ -66,20 +47,14 @@ function FrameHelper() {
         <h3 className="text-sm font-medium">
           Frame <span className="font-bold">{frameName}</span> seleccionado
         </h3>
-        
         {showTip && (
           <div className="text-xs text-blue-600 mb-1 max-w-[250px]">
-            {editor.getSelectedShapeIds().length > 1 
-              ? "Ahora usa la paleta de estilos nativa de Tldraw para cambiar el color y propiedades de los elementos seleccionados." 
+            {editor.getSelectedShapeIds().length > 1
+              ? "Usa la paleta de estilos de Tldraw para cambiar propiedades."
               : "Este frame no tiene contenido para seleccionar."}
           </div>
         )}
-        
-        <Button
-          onClick={selectFrameContent}
-          variant="default"
-          className="w-full bg-black text-white hover:bg-gray-800"
-        >
+        <Button onClick={selectFrameContent} variant="default" className="w-full bg-black text-white hover:bg-gray-800">
           Seleccionar contenido
         </Button>
       </div>
@@ -90,67 +65,56 @@ function FrameHelper() {
 export default function Editor() {
   const { data, isLoading, isError, error } = api.editor.getDocument.useQuery();
   const saveMutation = api.editor.saveDocument.useMutation();
-  const [editor, setEditor] = useState<TldrawEditor | null>(null);
+  const [editor, setEditor] = useState<EditorInstance | null>(null);
 
-  const handleSave = async (newShapes: TLShape[]) => {
-    try {
-      await saveMutation.mutateAsync({ shapes: newShapes });
-    } catch (err) {
-      console.error("Error al guardar las formas:", err);
-    }
-  };
-
-  const handleMount = useCallback(
-    (editorInstance: TldrawEditor) => {
-      setEditor(editorInstance);
-      if (data?.shapes && data.shapes.length > 0) {
-        console.log("Datos iniciales:", data.shapes);
-        
-        data.shapes.forEach((shape) => {
-          if (shape.props?.color !== undefined && 
-              (typeof shape.props.color !== 'string' || !VALID_COLORS.includes(shape.props.color))) {
-            console.warn(`Color inválido encontrado en shape ${shape.id}: ${shape.props.color}. Corrigiendo a "black".`);
-            shape.props.color = "black";
-          }
-          
-          try {
-            editorInstance.createShape(shape);
-          } catch (err) {
-            console.error(`Error al crear la forma ${shape.id}:`, err);
-          }
-        });
+  const handleSave = useCallback(
+    async (newShapes: ShapeData[]) => {
+      try {
+        await saveMutation.mutateAsync({ shapes: newShapes });
+      } catch (err) {
+        console.error("Error al guardar las formas:", err);
       }
     },
-    [data]
+    [saveMutation]
   );
+
+  const handleMount = useCallback((editorInstance: EditorInstance) => {
+    setEditor(editorInstance);
+    if (data?.shapes && data.shapes.length > 0) {
+      data.shapes.forEach((shape: ShapeData) => {
+        editorInstance.createShape(shape);
+      });
+    }
+  }, [data]);
+
+  const modifyShape = useCallback(() => {
+    if (!editor) return;
+    const shapes = editor.getCurrentPageShapes();
+    if (shapes.length > 0) {
+      const firstShape = shapes[0];
+      editor.updateShape({
+        ...firstShape,
+        props: { ...firstShape.props, color: "red" },
+      });
+    }
+  }, [editor]);
 
   useEffect(() => {
     if (!editor) return;
-
-    const handleChangeEvent: TLEventMapHandler<"change"> = () => {
-      const allShapes = editor.getCurrentPageShapes();
+    const handleChangeEvent = () => {
+      const allShapes = editor.getCurrentPageShapes() as ShapeData[];
       if (allShapes.length > 0) {
         handleSave(allShapes);
       }
     };
-
-    const unsubscribe = editor.store.listen(handleChangeEvent, {
-      source: "user",
-      scope: "document",
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [editor]);
+    const unsubscribe = editor.store.listen(handleChangeEvent, { source: "user", scope: "document" });
+    return () => unsubscribe();
+  }, [editor, handleSave]);
 
   if (isLoading) {
     return (
       <main className="flex items-center justify-center w-full h-screen">
-        <img
-          src="/icon/BrushGIF.gif"
-          alt="Cargando..."
-          className="w-32 h-32"
-        />
+        <Image src="/icon/BrushGIF.gif" alt="Cargando..." width={32} height={32} className="w-32 h-32" unoptimized />
       </main>
     );
   }
@@ -158,19 +122,16 @@ export default function Editor() {
   if (isError) {
     return <div>Error al cargar el documento: {error.message}</div>;
   }
+
   const components: Partial<TLComponents> = {
-    InFrontOfTheCanvas: () => <FrameHelper />,
+    InFrontOfTheCanvas: FrameHelper,
   };
 
   return (
     <main className="h-full overflow-hidden">
       <div className="h-full flex flex-col">
         <div className="flex-1 relative">
-          <Tldraw
-            onMount={handleMount}
-            autoFocus
-            components={components}
-          />
+          <Tldraw onMount={handleMount} autoFocus components={components} />
         </div>
       </div>
     </main>

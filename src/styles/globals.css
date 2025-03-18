@@ -121,3 +121,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes paint {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(15deg); }
+}
+
+.animate-loading {
+  animation: paint 1s infinite ease-in-out;
+}
