@@ -52,23 +52,23 @@ A continuación, te muestro el flujo básico para usar el editor.
 
 1. **Crear una figura**
    En la primera imagen, simplemente dibujamos o insertamos una nueva figura en el lienzo.
-   ![Crear una figura](public/screenshots/step_1.png)
+   ![Crear una figura](https://github.com/kamigru/editor-next/raw/main/public/screenshots/step_1.png?v=2)
 
 2. **Seleccionar un frame**
    Una vez tengamos figuras en el lienzo, en la segunda imagen vemos cómo se selecciona un frame para agrupar o contener ciertos elementos.
-   ![Seleccionar un frame](public/screenshots/step_2.png)
+   ![Seleccionar un frame](https://github.com/kamigru/editor-next/raw/main/public/screenshots/step_2.png?v=2)
 
 3. **Seleccionar figuras dentro del frame**
    En la tercera imagen, seleccionamos una o varias figuras que queremos modificar dentro de ese frame.
-   ![Seleccionar figuras](public/screenshots/step_3.png)
+   ![Seleccionar figuras](https://github.com/kamigru/editor-next/raw/main/public/screenshots/step_3.png?v=2)
 
 4. **Ver panel lateral y botón de contenido**
    En la cuarta imagen, aparece un panel en la derecha que indica qué frame está seleccionado y muestra un botón para "Seleccionar contenido".
-   ![Panel lateral](public/screenshots/step_4.png)
+   ![Panel lateral](https://github.com/kamigru/editor-next/raw/main/public/screenshots/step_4.png?v=2)
 
 5. **Cambiar color y forma de la figura**
    Finalmente, con la figura dentro del frame seleccionada, se abre la paleta de colores (y de formas) para modificar la apariencia de los elementos dentro del frame. Aquí se ve la UI nativa de Tldraw para cambiar tanto el color como la forma de la figura seleccionada.
-   ![Cambiar color y forma](public/screenshots/step_5.png)
+   ![Cambiar color y forma](https://github.com/kamigru/editor-next/raw/main/public/screenshots/step_5.png?v=2)
 
 ## 🔄 API y Persistencia
 
